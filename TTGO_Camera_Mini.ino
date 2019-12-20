@@ -11,6 +11,7 @@ const uint8_t i2c_sda = 21;
 const uint8_t i2c_scl = 22;
 const uint8_t cap_touch = 33;
 
+#if 0
 #define PWDN_GPIO_NUM    -1
 #define RESET_GPIO_NUM   -1
 #define XCLK_GPIO_NUM    32
@@ -30,6 +31,28 @@ const uint8_t cap_touch = 33;
 #define HREF_GPIO_NUM    25
 #define PCLK_GPIO_NUM    19
 
+#else
+
+#define PWDN_GPIO_NUM    -1
+#define RESET_GPIO_NUM   -1
+#define XCLK_GPIO_NUM    32
+#define SIOD_GPIO_NUM    13
+#define SIOC_GPIO_NUM    12
+
+#define Y9_GPIO_NUM      39
+#define Y8_GPIO_NUM      36
+#define Y7_GPIO_NUM      38
+#define Y6_GPIO_NUM      37
+#define Y5_GPIO_NUM      15
+#define Y4_GPIO_NUM      4
+#define Y3_GPIO_NUM      14
+#define Y2_GPIO_NUM      5
+
+#define VSYNC_GPIO_NUM   27
+#define HREF_GPIO_NUM    25
+#define PCLK_GPIO_NUM    19
+
+#endif
 /***************************************
  *  WiFi
  **************************************/
@@ -56,6 +79,7 @@ uint8_t i2cRead(uint8_t reg)
     return Wire.read();
 }
 
+
 void setup()
 {
     Serial.begin(115200);
@@ -66,8 +90,12 @@ void setup()
 
     //! USB current limit must be disabled
     Wire.begin(i2c_sda, i2c_scl);
+
     uint8_t val = i2cRead(0x30);
-    i2cWrite(0x30, val | 0x03);
+    Serial.printf("RVAL:%u\n", val);
+    i2cWrite(0x30, val & 0xFC);
+    val = i2cRead(0x30);
+    Serial.printf("WVAL:%u\n", val);
 
     camera_config_t config;
     config.ledc_channel = LEDC_CHANNEL_0;
