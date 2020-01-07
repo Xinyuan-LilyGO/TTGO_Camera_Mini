@@ -11,7 +11,13 @@ const uint8_t i2c_sda = 21;
 const uint8_t i2c_scl = 22;
 const uint8_t cap_touch = 33;
 
-#if 0
+
+
+// #define OLD_VERSION_CAMERA       
+
+//!  Old version is green PCB, please use these pins
+#ifdef OLD_VERSION_CAMERA
+
 #define PWDN_GPIO_NUM    -1
 #define RESET_GPIO_NUM   -1
 #define XCLK_GPIO_NUM    32
@@ -33,6 +39,7 @@ const uint8_t cap_touch = 33;
 
 #else
 
+//! New version is black PCB, please use these pins
 #define PWDN_GPIO_NUM    -1
 #define RESET_GPIO_NUM   -1
 #define XCLK_GPIO_NUM    32
@@ -53,6 +60,8 @@ const uint8_t cap_touch = 33;
 #define PCLK_GPIO_NUM    19
 
 #endif
+
+
 /***************************************
  *  WiFi
  **************************************/
